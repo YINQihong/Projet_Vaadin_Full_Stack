@@ -16,4 +16,7 @@ public interface BookingRepository extends JpaRepository<Booking, Long> {
     
     // 查找某个行程某个状态的预订
     List<Booking> findByTripIdAndStatus(Long tripId, String status);
+    
+ // 查找某个乘客在某个行程的预订
+    List<Booking> findByTripIdAndPassengerId(Long tripId, Long passengerId);
 }

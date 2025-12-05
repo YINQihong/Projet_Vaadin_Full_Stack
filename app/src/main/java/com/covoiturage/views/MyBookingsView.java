@@ -87,6 +87,15 @@ public class MyBookingsView extends VerticalLayout {
                 Notification.show("Vous n'avez pas encore de réservation", 
                                 3000, Notification.Position.MIDDLE);
             }
+            
+            // 点击行跳转到行程详情
+            bookingsGrid.addItemClickListener(event -> {
+                BookingDTO booking = event.getItem();
+                if (booking.getTripId() != null) {
+                    getUI().ifPresent(ui -> ui.navigate(TripDetailsView.class, booking.getTripId()));
+                }
+            });
+            
         } catch (Exception ex) {
             Notification.show("Erreur: " + ex.getMessage(), 
                             3000, Notification.Position.MIDDLE);

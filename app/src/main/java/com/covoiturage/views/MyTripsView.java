@@ -125,15 +125,30 @@ public class MyTripsView extends VerticalLayout {
             .set("padding", "15px")
             .set("margin-bottom", "10px");
         
-        H3 passengerName = new H3("Passager: " + booking.getPassengerName());
+        Button passengerButton = new Button(booking.getPassengerName(), e -> {
+            getUI().ifPresent(ui -> ui.navigate(ProfileView.class, booking.getPassengerId()));
+        });
+        passengerButton.getStyle()
+            .set("font-size", "18px")
+            .set("font-weight", "bold")
+            .set("background", "none")
+            .set("border", "none")
+            .set("color", "#2196F3")
+            .set("cursor", "pointer")
+            .set("text-decoration", "underline");
+
+        VerticalLayout passengerHeader = new VerticalLayout();
+        passengerHeader.add(new Paragraph("Passager:"), passengerButton);
+        passengerHeader.setSpacing(false);
+        passengerHeader.setPadding(false);
         Paragraph seats = new Paragraph("Places réservées: " + booking.getSeatsBooked());
         Paragraph status = new Paragraph("Status: " + booking.getStatus());
         
         if (booking.getMessageToDriver() != null && !booking.getMessageToDriver().isEmpty()) {
             Paragraph message = new Paragraph("Message: " + booking.getMessageToDriver());
-            card.add(passengerName, seats, status, message);
+            card.add(passengerHeader, seats, status, message);
         } else {
-            card.add(passengerName, seats, status);
+            card.add(passengerHeader, seats, status);
         }
         
         // Boutons d'action (seulement si status = pending)

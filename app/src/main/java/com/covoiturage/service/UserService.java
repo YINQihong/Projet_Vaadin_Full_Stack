@@ -100,4 +100,35 @@ public class UserService {
             .orElseThrow(() -> new RuntimeException("User not found"));
         return new UserDTO(user);
     }
+    
+    /**
+     * 更新用户资料
+     */
+    @Transactional
+    public UserDTO updateProfile(Long userId, String firstName, String lastName, String phone, String bio) {
+        
+        // 1. 查找用户
+        User user = userRepository.findById(userId)
+            .orElseThrow(() -> new RuntimeException("User not found"));
+        
+        // 2. 验证必填字段
+        if (firstName == null || firstName.isEmpty()) {
+            throw new RuntimeException("First name is required");
+        }
+        if (lastName == null || lastName.isEmpty()) {
+            throw new RuntimeException("Last name is required");
+        }
+        
+        // 3. 更新字段
+        user.setFirstName(firstName);
+        user.setLastName(lastName);
+        user.setPhone(phone);
+        user.setBio(bio);
+        
+        // 4. 保存
+        User updatedUser = userRepository.save(user);
+        
+        // 5. 更新Session中的用户信息
+        return new UserDTO(updatedUser);
+    }
 }

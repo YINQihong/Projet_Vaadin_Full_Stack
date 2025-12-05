@@ -46,6 +46,14 @@ public class BookingService {
             throw new RuntimeException("Vous ne pouvez pas réserver votre propre trajet");
         }
         
+        // 4. 验证是否已经预订过
+        List<Booking> existingBookings = bookingRepository.findByTripIdAndPassengerId(tripId, passengerId);
+        for (Booking existing : existingBookings) {
+            if ("pending".equals(existing.getStatus()) || "accepted".equals(existing.getStatus())) {
+                throw new RuntimeException("Vous avez déjà une réservation pour ce trajet");
+            }
+        }
+        
         // 4. 验证行程状态
         if (!"active".equals(trip.getStatus())) {
             throw new RuntimeException("Ce trajet n'est plus disponible");

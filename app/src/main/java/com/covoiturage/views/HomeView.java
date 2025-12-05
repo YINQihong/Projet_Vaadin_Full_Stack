@@ -32,11 +32,12 @@ public class HomeView extends VerticalLayout {
             RouterLink searchLink = new RouterLink("Rechercher un trajet", SearchTripsView.class);
             RouterLink myTripsLink = new RouterLink("Mes trajets", MyTripsView.class);
             RouterLink myBookingsLink = new RouterLink("Mes réservations", MyBookingsView.class);
+            RouterLink editProfileLink = new RouterLink("Mon profil", EditProfileView.class);
             // TODO: Ajouter d'autres liens (rechercher, mes trajets, etc.)
             
             Button logoutButton = new Button("Se déconnecter", e -> handleLogout());
             
-            add(title, welcome, description, createTripLink, searchLink, myTripsLink, myBookingsLink, logoutButton);        } else {
+            add(title, welcome, description, createTripLink, searchLink, myTripsLink, myBookingsLink, editProfileLink, logoutButton);        } else {
             // 用户未登录
             RouterLink loginLink = new RouterLink("Se connecter", LoginView.class);
             RouterLink registerLink = new RouterLink("S'inscrire", RegisterView.class);

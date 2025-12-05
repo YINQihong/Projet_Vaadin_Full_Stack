@@ -111,14 +111,24 @@ public class TripDetailsView extends VerticalLayout implements HasUrlParameter<L
         
         H2 driverInfoTitle = new H2("Conducteur");
         
-        H3 driverName = new H3(driver.getFirstName() + " " + driver.getLastName());
+        Button driverNameButton = new Button(driver.getFirstName() + " " + driver.getLastName(), e -> {
+            getUI().ifPresent(ui -> ui.navigate(ProfileView.class, driver.getId()));
+        });
+        driverNameButton.getStyle()
+            .set("font-size", "20px")
+            .set("font-weight", "bold")
+            .set("background", "none")
+            .set("border", "none")
+            .set("color", "#2196F3")
+            .set("cursor", "pointer")
+            .set("text-decoration", "underline");
         Paragraph driverEmail = new Paragraph("📧 Email: " + driver.getEmail());
         
         if (driver.getPhone() != null && !driver.getPhone().isEmpty()) {
             Paragraph driverPhone = new Paragraph("📞 Téléphone: " + driver.getPhone());
-            driverInfo.add(driverInfoTitle, driverName, driverEmail, driverPhone);
+            driverInfo.add(driverInfoTitle, driverNameButton, driverEmail, driverPhone);
         } else {
-            driverInfo.add(driverInfoTitle, driverName, driverEmail);
+        	driverInfo.add(driverInfoTitle, driverNameButton, driverEmail);
         }
         
         // Statistiques du conducteur
@@ -140,8 +150,8 @@ public class TripDetailsView extends VerticalLayout implements HasUrlParameter<L
         // Boutons d'action
         HorizontalLayout buttons = new HorizontalLayout();
         
-        Button backButton = new Button("← Retour à la recherche", e -> {
-            getUI().ifPresent(ui -> ui.navigate(SearchTripsView.class));
+        Button backButton = new Button("← Retour", e -> {
+            getUI().ifPresent(ui -> ui.getPage().getHistory().back());
         });
         
         // Bouton de réservation (seulement si pas le conducteur)
